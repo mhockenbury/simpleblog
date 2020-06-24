@@ -47,6 +47,7 @@ def article(request, uuid):
         "quote_content": random.sample(quote_data, 3),
         "form": form,
         "comments": Comment.objects.filter(article_uuid=uuid),
+        "title": article_content["headline"],
     }
     return HttpResponse(template.render(context, request))
     # TODO: make title use consistent

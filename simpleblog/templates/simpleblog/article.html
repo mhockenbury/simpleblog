@@ -1,5 +1,6 @@
 {% extends "./base.html" %}
 {% load static %}
+{% load custom_tags %}
 {% block content %}
 <div class="container article-content-inner">
     <div class="row">
@@ -75,7 +76,7 @@
                         <aside class="price-quote-container">
                             <h4 class="current-price">{{ticker.CurrentPrice.Amount}}</h4>
                             <h4 class="price-change-amount price-neg">{{ticker.Change.Amount}}</h4>
-                            <h4 class="price-change-percent price-neg">{{ticker.PercentChange.Value}}</h4>
+                            <h4 class="price-change-percent price-neg">{{ticker.PercentChange.Value|as_percentage}}</h4>
                         </aside>
                     </div>
                 </div>
