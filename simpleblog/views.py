@@ -33,10 +33,11 @@ def article(request, uuid):
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
-            # TODO: make author optional; assign as Anonymous
             comment = form.save(commit=False)
+            if not comment.author:
+                comment.author = "Internet Stranger"
             comment.article_uuid = uuid
-            comment.created_at = datetime.datetime.now() # UTC time?
+            comment.created_at = datetime.datetime.utcnow()
             comment.save()
 
     # TODO: return 404 if no matching article id
