@@ -41,7 +41,6 @@ def article(request, uuid):
 
     # TODO: return 404 if no matching article id
     # TODO: style comments html
-    # TODO: stock ticker percentages
     context = {
         "article_content": article_content,
         "quote_content": random.sample(quote_data, 3),
@@ -50,7 +49,6 @@ def article(request, uuid):
         "title": article_content["headline"],
     }
     return HttpResponse(template.render(context, request))
-    # TODO: make title use consistent
 
 def home(request):
     template = loader.get_template('simpleblog/home.html')
