@@ -1,0 +1,88 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block content %}
+<div class="container article-content-inner">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="article-header">
+                <header>
+                    <div id="adv_text" class="adv-heading"></div>
+                    <h1>{{ article_content.headline }}</h1>
+                </header>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <main class="col-sm-7 col-md-8">
+            <div class="author-tagline author-inline">
+                <div class="author-and-date">
+                    <div class="author-byline">
+                        <div class="author-name">{{ article_content.byline }}</div>
+                    </div>
+                    <div class="article-pub-date">
+                        <div class="publication-date">{{ article_content.publish_at|date:"D d M Y" }}</div>
+                    </div>
+                </div>
+            </div>
+            <section class="article-body">
+                <div class="article-content">{{ article_content.body|safe }}</div>
+                <div class="article-disclosure">
+                    <p><em>{{ article_content.disclosure|safe}}</em></p>
+                </div>
+                <div class="special-message">
+                    SPECIAL MESSAGE / AUTHOR BIO
+                </div>
+            </section>
+            <section>
+                <h2>New comment</h2>
+                <form method="POST" class="post-form">{% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="save btn btn-default">Save</button>
+                </form>
+            </section>
+            <section>
+                <h2>Comments</h2>
+                {% for comment in comments %}
+                <p>{{comment.author}}</p>
+                <p>{{comment.created_at}}</p>
+                <p>{{comment.text}}</p>
+                {% endfor %}
+            </section>
+        </main>
+        <aside class="col-sm-5 col-md-4 p-l">
+           <section class="related-tickers">
+            <div class="block-title">
+                <hr>
+                <h2>Stocks</h2>
+            </div>
+            <div id="ticker-container">
+                {% for ticker in quote_content %}
+                <div id="ticker-{{forloop.counter}}" class="ticker-row">
+                    <div>
+                        <span class="image-wrap">
+                            <a href="#">
+                                <img src="{% static 'images/related-1.png' %}" class="img-responsive" alt="">
+                            </a>
+                        </span>
+                        <h3>{{ticker.CompanyName}}</h3>
+                        <h4>
+                            <span class="ticker">
+                                <a title="Stock Quote" href="#">
+                                    {{ticker.Exchange}}:<span class="symbol">{{ticker.Symbol}}</span>
+                                </a>
+                            </span>
+                        </h4>
+                        <aside class="price-quote-container">
+                            <h4 class="current-price">{{ticker.CurrentPrice.Amount}}</h4>
+                            <h4 class="price-change-amount price-neg">{{ticker.Change.Amount}}</h4>
+                            <h4 class="price-change-percent price-neg">{{ticker.PercentChange.Value}}</h4>
+                        </aside>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <input id="shuffle_button" class="btn" type="button" value="SHUFFLE" onclick="shuffleTickers()"/>
+        </section>
+        </aside>
+    </div>
+    {% endblock content %}

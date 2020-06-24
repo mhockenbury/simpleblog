@@ -1,0 +1,36 @@
+<section class="related-tickers">
+    <div class="block-title">
+        <hr>
+        <h2>Stocks</h2>
+    </div>
+    {% for ticker in tickers %}
+    <div class="ticker-row">
+        <div>
+            <span class="image-wrap">
+                <a href="#">
+                    <img src="images/related-1.png" class="img-responsive" alt="">
+                </a>
+            </span>
+            <h3>Apple</h3>
+            <h4>
+                <span class="ticker">
+                    <a title="Apple Stock Quote" href="#">
+                        NASDAQ:<span class="symbol">AAPL</span>
+                    </a>
+                </span>
+            </h4>
+            <aside class="price-quote-container">
+                <h4 class="current-price">
+                    $170.15
+                </h4>
+                <h4 class="price-change-amount price-neg">
+                    $0.95
+                </h4>
+                <h4 class="price-change-percent price-neg">
+                    (-0.56%)
+                </h4>
+            </aside>
+        </div>
+    </div>
+    {% endfor %}
+</section>

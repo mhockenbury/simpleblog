@@ -1,0 +1,46 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container content-inner">
+    <div class="main-col">
+        <section class="jumbo-card card">
+            <div class="card-image">
+                <a href="/articles/{{top_article.uuid}}""><img src={{ top_article.images.0.url}} alt="" class="img-responsive" /></a>
+            </div>
+            <div class="card-elements">
+                <div class="card-header">
+                    <a href="/articles/{{top_article.uuid}}"">
+                        <h3>{{top_article.headline}}</h3>
+                    </a>
+                    <p class="author">{{top_article.byline}}</p>
+                </div>
+                <div class="card-copy">
+                    <p>{{top_article.promo}}</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="cards row">
+        {% for card in content %}
+        <div class="card">
+            <div class="card-image">
+                <a href="/articles/{{card.uuid}}">
+                    <img src={{card.images.0.url}} alt="" />
+                </a>
+            </div>
+            <div class="card-elements">
+                <div class="card-header">
+                    <a href={{card.uuid}}>
+                        <h4>{{ card.headline }}</h4>
+                    </a>
+                    <p class="author">{{ card.byline }}</p>
+                </div>
+                <div class="card-copy">{{ card.promo }}</div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock content %}
