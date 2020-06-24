@@ -5,6 +5,7 @@ import json
 import os
 from django.template import loader
 from simpleblog.models import Comment, CommentForm
+from simpleblog.utils import get_by_uuid, get_by_slug, has_tag_value
 
 module_dir = os.path.dirname(__file__)
 
@@ -14,26 +15,17 @@ with open((module_dir + '/static/data/content_api.json')) as json_data:
 with open((module_dir + '/static/data/quotes_api.json')) as json_data:
     quote_data = json.load(json_data)
 
-def get_by_uuid(article_list, uuid):
-    return next(article for article in article_list if article['uuid'] == uuid)
-
-def get_by_slug(article_list, slug_value):
-    return next(article for article in article_list if has_tag_value(article['tags'], "slug", slug_value))
-
-def has_tag_value(tag_list, target_key, target_value):
-    for tag in tag_list:
-        if tag[target_key] == target_value:
-            return True
-    return False
-
 def article(request, uuid):
     template = loader.get_template('simpleblog/article.html')
     article_content = get_by_uuid(content_data["results"], uuid)
     form = CommentForm()
+
     if request.method == "POST":
         form = CommentForm(request.POST)
+
         if form.is_valid():
             comment = form.save(commit=False)
+
             if not comment.author:
                 comment.author = "Internet Stranger"
             comment.article_uuid = uuid
