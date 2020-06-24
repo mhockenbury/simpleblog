@@ -2,21 +2,22 @@ from django.http import HttpResponse
 import datetime
 import random
 import json
+import os
 from django.template import loader
 from simpleblog.models import Comment, CommentForm
 
-with open('/Users/mhockenbury/Projects/interview-project/simpleblog/simpleblog/content_api.json') as json_data:
+module_dir = os.path.dirname(__file__)
+
+with open((module_dir + '/static/data/content_api.json')) as json_data:
     content_data = json.load(json_data)
 
-with open('/Users/mhockenbury/Projects/interview-project/simpleblog/simpleblog/quotes_api.json') as json_data:
+with open((module_dir + '/static/data/quotes_api.json')) as json_data:
     quote_data = json.load(json_data)
 
 def get_by_uuid(article_list, uuid):
-    # TODO: This will raise an exception when no match is found, maybe use none()?
     return next(article for article in article_list if article['uuid'] == uuid)
 
 def get_by_slug(article_list, slug_value):
-    # TODO: This will raise an exception when no match is found, maybe use none()?
     return next(article for article in article_list if has_tag_value(article['tags'], "slug", slug_value))
 
 def has_tag_value(tag_list, target_key, target_value):
@@ -39,6 +40,8 @@ def article(request, uuid):
             comment.save()
 
     # TODO: return 404 if no matching article id
+    # TODO: style comments html
+    # TODO: stock ticker percentages
     context = {
         "article_content": article_content,
         "quote_content": random.sample(quote_data, 3),
@@ -46,6 +49,7 @@ def article(request, uuid):
         "comments": Comment.objects.filter(article_uuid=uuid),
     }
     return HttpResponse(template.render(context, request))
+    # TODO: make title use consistent
 
 def home(request):
     template = loader.get_template('simpleblog/home.html')
