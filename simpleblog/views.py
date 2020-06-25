@@ -18,6 +18,8 @@ with open((module_dir + '/static/data/quotes_api.json')) as json_data:
 def article(request, uuid):
     template = loader.get_template('simpleblog/article.html')
     article_content = get_by_uuid(content_data["results"], uuid)
+    if not article_content:
+        return HttpResponse(status=404)
     form = CommentForm()
 
     if request.method == "POST":
@@ -32,7 +34,6 @@ def article(request, uuid):
             comment.created_at = datetime.datetime.utcnow()
             comment.save()
 
-    # TODO: return 404 if no matching article id
     # TODO: style comments html
     context = {
         "article_content": article_content,
