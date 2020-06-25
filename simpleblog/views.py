@@ -35,12 +35,11 @@ def article(request, uuid):
             comment.created_at = datetime.datetime.utcnow()
             comment.save()
 
-    # TODO: style comments html
     context = {
         "article_content": article_content,
         "quote_content": random.sample(quote_data, 3),
         "form": form,
-        "comments": Comment.objects.filter(article_uuid=uuid),
+        "comments": Comment.objects.filter(article_uuid=uuid).order_by("-created_at"),
         "title": article_content["headline"],
     }
     return HttpResponse(template.render(context, request))

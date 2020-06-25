@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import article, home
+from django.urls import re_path
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', RedirectView.as_view(url='articles/')),
     path('articles/', home, name='articles-home'),
     path('articles/<slug:uuid>/', article, name='articles-single'),
 ]
