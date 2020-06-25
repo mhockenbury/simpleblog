@@ -18,10 +18,11 @@ with open((module_dir + '/static/data/quotes_api.json')) as json_data:
 def article(request, uuid):
     template = loader.get_template('simpleblog/article.html')
     article_content = get_by_uuid(content_data["results"], uuid)
+
     if not article_content:
         return HttpResponse(status=404)
-    form = CommentForm()
 
+    form = CommentForm()
     if request.method == "POST":
         form = CommentForm(request.POST)
 
